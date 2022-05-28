@@ -1,14 +1,67 @@
 <template>
   <div id="app">
-    <nav>
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </nav>
-    <router-view/>
+    <div>
+      <b-navbar v-if="!$route.meta.hideNavbar"  type="dark" variant="dark">
+        <b-navbar-nav>
+          <b-nav-item class="mr-auto"
+            ><router-link to="/">Home</router-link></b-nav-item
+          >
+          <b-nav-item
+            ><router-link to="/signUp">SignUp</router-link></b-nav-item
+          >
+          <b-nav-item class="mr-auto"
+            ><router-link to="/signIn">SignIn</router-link></b-nav-item
+          >
+
+          <b-nav-item class="mr-auto"
+            ><router-link to="/panel">Panel</router-link></b-nav-item
+          >
+        
+        </b-navbar-nav>
+        <b-navbar-nav class="mr-auto ms-auto mb-2 mb-lg-0">
+        <b-button @click="signUp({ email: `topo${Date.now()}@acac.cl`, password: 'acac123' })">Button</b-button>
+          <b-nav-item >{{`Bienvenido: ${usuario}`}}</b-nav-item>
+
+        </b-navbar-nav>
+
+      </b-navbar>
+    </div>
+
+    <router-view />
   </div>
 </template>
 
+<script>
+import {mapState,mapActions} from 'vuex'
+export default {
+    name: 'EntryPoint',
+    data(){
+        return{
+        }
+    },
+    created(){
+
+    },
+    methods:{
+          ...mapActions([
+      "signIn",'getCurrentUser','signUp'
+    ]),
+    },
+    computed:{
+    ...mapState(['usuario']),
+    },
+    mounted() {
+      this.getCurrentUser();
+}
+}
+</script>
+
 <style lang="scss">
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
