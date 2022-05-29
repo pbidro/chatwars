@@ -18,9 +18,14 @@ El tamaño de fuente es el siguiente:
 ## Guía de Instalación
 Este proyecto utiliza las librerías, aunque no es necesario instalarlas debido a que el repositorio contiene todo empaquetado 
     
-    firebase
+    "bootstrap": "^5.1.3",
+    "bootstrap-vue": "^2.22.0",
+    "core-js": "^3.8.3",
+    "firebase": "^9.8.1",
+    "vue": "^2.6.14",
+    "vue-router": "^3.5.1",
+    "vuex": "^3.6.2"
     
-    bootstrap vue
 ```
 npm install firebase
 npm install vue bootstrap bootstrap-vue
@@ -41,7 +46,7 @@ npm run build
 Si se desea configurar el servidor de firebase se debe modificar el archivo src/firebase/config.js y colocar tus datos:
 
 
-### Ruta de acceso
+## Ruta de acceso
 el proyecto puede ser accedido en la siguiente url:
 
         www.chatwars.io
