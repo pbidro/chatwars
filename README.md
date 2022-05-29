@@ -1,25 +1,27 @@
 # chatwars
 
-## Project setup
+## Dependencias
+Este proyecto utiliza las librerías 
+    
+    firebase
+    
+    bootstrap vue
 ```
-npm install
+npm install firebase
+npm install vue bootstrap bootstrap-vue
 ```
 
-### Compiles and hot-reloads for development
+### Para compilar ejecutar el siguiente comando
 ```
 npm run serve
 ```
 
-### Compiles and minifies for production
+### Para prerenderizar la aplicación
 ```
 npm run build
 ```
 
-### Lints and fixes files
-```
-npm run lint
-```
 
 ### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
-# chatwars
+Si se desea configurar el servidor de firebase se debe modificar el archivo src/firebase/config.js y colocar tus datos:
+
