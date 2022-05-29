@@ -13,7 +13,6 @@ El tamaño de fuente es el siguiente:
         h2 3rem 
         por ejemplo
         
- 
 
 ## Guía de Instalación
 Este proyecto utiliza las librerías, aunque no es necesario instalarlas debido a que el repositorio contiene todo empaquetado 
@@ -26,10 +25,6 @@ Este proyecto utiliza las librerías, aunque no es necesario instalarlas debido 
     "vue-router": "^3.5.1",
     "vuex": "^3.6.2"
     
-```
-npm install firebase
-npm install vue bootstrap bootstrap-vue
-```
 
 ### Para compilar ejecutar el siguiente comando
 ```
