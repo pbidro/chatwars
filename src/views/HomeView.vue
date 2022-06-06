@@ -176,9 +176,33 @@
 export default {};
 </script>
 
+<style lang="scss">
+$color: red;
+
+.preview {
+  background-color: rgb(180, 182, 171);
+  padding-bottom: 2rem;
+&-container {
+  margin-top: 100px;
+}
+&-container__title {
+  padding: 2rem;
+}
+
+&-container__image {
+  width: 400px;
+  height: 400px;
+  background-color: $color;
+  margin: 0 auto;
+}
+
+}
+
+</style>
+
 <style >
 *{
-  pading: 0px;
+  padding: 0px;
   margin: 0px;
   box-sizing: border-box;
 }
@@ -221,24 +245,6 @@ li {
 }
 .team-container__title {
   padding: 2rem;
-}
-
-.preview {
-  background-color: rgb(180, 182, 171);
-  padding-bottom: 2rem;
-}
-.preview-container {
-  margin-top: 100px;
-}
-.preview-container__title {
-  padding: 2rem;
-}
-
-.preview-container__image {
-  width: 400px;
-  height: 400px;
-  background-color: red;
-  margin: 0 auto;
 }
 
 

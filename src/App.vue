@@ -19,7 +19,7 @@
         
         </b-navbar-nav>
         <b-navbar-nav class="mr-auto ms-auto mb-2 mb-lg-0">
-        <b-button @click="signUp({ email: `topo${Date.now()}@acac.cl`, password: 'acac123' })">Button</b-button>
+        <b-button @click="signUp({ email: `topo${Date.now()}@acac.cl`, password: 'acac123' }),getAnotherUsers()">Button</b-button>
           <b-nav-item >{{`Bienvenido: ${usuario}`}}</b-nav-item>
 
         </b-navbar-nav>
@@ -28,10 +28,14 @@
     </div>
 
     <router-view />
+    {{miData}}
+    {{otherUsers}}
   </div>
 </template>
 
 <script>
+import { getFirestore } from "firebase/firestore";
+
 import {mapState,mapActions} from 'vuex'
 export default {
     name: 'EntryPoint',
@@ -40,18 +44,23 @@ export default {
         }
     },
     created(){
+    this.instanceFirestore(getFirestore);
 
     },
     methods:{
           ...mapActions([
-      "signIn",'getCurrentUser','signUp'
+      "signIn",'getCurrentUser','signUp','getMyData','instanceFirestore','getAnotherUsers'
     ]),
+
     },
     computed:{
-    ...mapState(['usuario']),
+    ...mapState(['usuario','miData','otherUsers']),
     },
     mounted() {
       this.getCurrentUser();
+      this.getMyData();
+      this.getAnotherUsers();
+
 }
 }
 </script>
