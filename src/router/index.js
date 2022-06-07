@@ -7,7 +7,10 @@ const routes = [
   {
     path: '/',
     name: 'home',
-    component: HomeView
+    component: HomeView,
+    meta: {
+      hideNavbar: true,
+     }
   },
   {
     path: '/signup',

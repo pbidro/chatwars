@@ -3,13 +3,12 @@ import {getAuth} from "firebase/auth";
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyCr7XeHu-77DiYpJaKtfObo8BEOtUaBMHc",
-  authDomain: "solterinders.firebaseapp.com",
-  projectId: "solterinders",
-  storageBucket: "solterinders.appspot.com",
-  messagingSenderId: "950430812906",
-  appId: "1:950430812906:web:11089e6689122f420ee593",
-  measurementId: "G-GPZRPLLMRG"
+  apiKey: "AIzaSyDvk4LyiTQ_ZHJQJJD63GGlIeky0LIAtTk",
+  authDomain: "chatwars-beta.firebaseapp.com",
+  projectId: "chatwars-beta",
+  storageBucket: "chatwars-beta.appspot.com",
+  messagingSenderId: "532881814784",
+  appId: "1:532881814784:web:28b233bfd4b18c9174efe5"
 };
 
 initializeApp(firebaseConfig)

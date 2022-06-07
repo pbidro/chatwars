@@ -28,8 +28,6 @@
     </div>
 
     <router-view />
-    {{miData}}
-    {{otherUsers}}
   </div>
 </template>
 
@@ -60,17 +58,13 @@ export default {
       this.getCurrentUser();
       this.getMyData();
       this.getAnotherUsers();
-
 }
+
 }
 </script>
 
 <style lang="scss">
-* {
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
-}
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

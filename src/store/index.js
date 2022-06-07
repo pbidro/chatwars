@@ -16,6 +16,42 @@ export default new Vuex.Store({
   },
 
   getters: {
+    getPendingMatch: (state) => () => {
+      var auxArray = state.miData.data.user.matchUsers.filter(matches => matches.state == "pending");
+      return auxArray
+    },
+
+    getAcceptedMatch: (state) => () => {
+      var auxArray = state.miData.data.user.matchUsers.filter(matches => matches.state == "rejected");
+      return auxArray
+    },
+
+
+
+    getRejectedMatch: (state) => () => {
+      var auxArray = state.miData.data.user.matchUsers.filter(matches => matches.state == "accepted");
+      return auxArray
+    },
+
+    getTargetUser: (state) => (docid) => {
+      var auxArray = state.otherUsers.filter(matches => matches.documentid == docid);
+      return auxArray[0]
+    },
+
+    getNotMatchedUsers: (state) => (interactions) => {
+      console.log("data de getter")
+      console.log(state.otherUsers)
+      console.log(interactions)
+      var auxArray = state.otherUsers.filter(element => !interactions.includes(element.documentid))
+
+      return auxArray
+    },
+    getAllMatchDocs: (state) => () => {
+      var auxArray = state.miData.data.user.matchUsers;
+      var result = auxArray.map(element => element.document);
+      console.log(result);
+      return result
+    },
   },
 
   mutations: {
@@ -45,7 +81,6 @@ export default new Vuex.Store({
       context.commit("instanceFirestore", fs())
     },
     async getCurrentUser(context){
-
      await onAuthStateChanged(auth, (user) => {
         if (user) {
           context.commit('setUser', user)
@@ -53,8 +88,7 @@ export default new Vuex.Store({
           context.commit('setUser', {email:null})
         }
     })
-  
-  },
+    },
     async signIn(context, { email, password }) {
       const res = await signInWithEmailAndPassword(auth, email, password)
       if (res) {
@@ -73,28 +107,18 @@ export default new Vuex.Store({
             lastConection: `"${Date.now()}"`,
             matchCounter: 100,
             matchUsers: [
-              {
-                starwars86: {
-                matchAcept: true,
-                }
-
-              }
-
             ]
           }
-
         }
         
         await addDoc(collection(getFirestore(), "starchat"), newUser);
         console.log(newUser)
         context.commit('setUser', res.user)
-
       }
    
 
     },
     async getMyData({commit}) {
-
 
      await onAuthStateChanged(auth, (user) => {
         if (user) {
@@ -108,26 +132,21 @@ export default new Vuex.Store({
               querySnapshot.forEach((doc) => {
                 myDataPayload = {documentid: doc.id, data: doc.data()}
               });
-              console.log(`my data payload: ${myDataPayload}`)
               commit('setUserInfo', myDataPayload)
             });
           }
 
-        } else {
-          commit('setUser', {email:null})
-        }
+        } 
     })
     },
     async getAnotherUsers({commit}) {
-
 
       await onAuthStateChanged(auth, (user) => {
          if (user) {
  
           if (this.state.myFirestore) {
             const db = getFirestore();
-            console.log(user.email)
-           const q = query(collection(db, "starchat"),where('user.userMail','!=',user.email));  
+           const q = query(collection(db, "starchat"),where('user.userMail','!=',user.email)) ;  
             onSnapshot(q, (querySnapshot) => {
               const mensajes = [];
               this.mensajes = [];
@@ -142,18 +161,64 @@ export default new Vuex.Store({
            commit('setUser', {email:null})
          }
      })
-     },
+    },
      async sendMatch(commit, objeto) {
       if (objeto != "") {
         console.log(objeto)
         const db = getFirestore();
-        console.log('Match To User', objeto.toUser)
-        objeto.fromUser.data.user.matchCounter -= 1;
+        if(objeto.fromUser.data.user.matchCounter >0){
 
+          objeto.fromUser.data.user.matchCounter -= 1;
+          objeto.toUser.data.user.matchUsers.push({matchUser: objeto.fromUser.data.user.userMail, state:"pending", document:objeto.fromUser.documentid})
+          objeto.fromUser.data.user.matchUsers.push({matchUser: objeto.toUser.data.user.userMail, state:"pending", document:objeto.toUser.documentid})
         await setDoc(doc(db, "starchat", objeto.fromUser.documentid), objeto.fromUser.data);
+        await setDoc(doc(db, "starchat", objeto.toUser.documentid), objeto.toUser.data);
+
+        }
+
         commit
       }
     },
+
+    async approveMatch(commit, objeto) {
+      if (objeto != "") {
+        const db = getFirestore();
+        var fromIndex = objeto.fromUser.data.user.matchUsers.findIndex(element => element.matchUser == objeto.toUser.data.user.userMail)
+        var toIndex = objeto.toUser.data.user.matchUsers.findIndex(element => element.matchUser == objeto.fromUser.data.user.userMail)
+
+        objeto.toUser.data.user.matchUsers[toIndex].state = "accepted"
+        objeto.fromUser.data.user.matchUsers[fromIndex].state = "accepted"
+        
+        await setDoc(doc(db, "starchat", objeto.fromUser.documentid), objeto.fromUser.data);
+        await setDoc(doc(db, "starchat", objeto.toUser.documentid), objeto.toUser.data);
+
+        
+
+        commit
+      }
+    },
+
+    async rejectMatch(commit, objeto) {
+      if (objeto != "") {
+        const db = getFirestore();
+        var fromIndex = objeto.fromUser.data.user.matchUsers.findIndex(element => element.matchUser == objeto.toUser.data.user.userMail)
+        var toIndex = objeto.toUser.data.user.matchUsers.findIndex(element => element.matchUser == objeto.fromUser.data.user.userMail)
+
+        objeto.toUser.data.user.matchUsers[toIndex].state = "rejected"
+        objeto.fromUser.data.user.matchUsers[fromIndex].state = "rejected"
+        
+        await setDoc(doc(db, "starchat", objeto.fromUser.documentid), objeto.fromUser.data);
+        await setDoc(doc(db, "starchat", objeto.toUser.documentid), objeto.toUser.data);
+
+        
+
+        commit
+      }
+    },
+
+
+
+    
 
   },
   modules: {
