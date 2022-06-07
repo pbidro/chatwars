@@ -63,7 +63,7 @@
     <template #button-content>
       Notificaciones  <b-badge pill class="pill bg-danger"> {{getPendingMatch().length}}</b-badge>
     </template>
-    <b-dropdown-item v- v-for='pendings in getPendingMatch()'
+    <b-dropdown-item v-for='pendings in getPendingMatch()'
     :key='pendings.id' >{{pendings.matchUser}} {{pendings.document}}
 
         <b-button href="#" variant="success" @click="approveMatch({fromUser: miData ,toUser: getTargetUser(pendings.document)})">Approve</b-button>
@@ -73,7 +73,19 @@
 
     </b-dropdown-item>
   </b-dropdown>
+      </b-list-group-item  >
+            <b-list-group-item class="d-flex align-items-center">
+              <b> Friends </b>
       </b-list-group-item>
+
+
+
+      <b-list-group-item class="d-flex align-items-center" v-for='friends in getAcceptedMatch()
+'
+    :key='friends.id'>
+    {{friends.data.user.userMail}}
+      </b-list-group-item>
+
 
     </b-list-group>
 
@@ -106,7 +118,6 @@
 </b-container>
 
 
-
     </div>
 
 
@@ -133,7 +144,7 @@ export default {
     },
     computed:{
     ...mapState(['usuario','miData','otherUsers']),
-    ...mapGetters(['getPendingMatch','getTargetUser','getNotMatchedUsers','getAllMatchDocs'])
+    ...mapGetters(['getPendingMatch','getTargetUser','getNotMatchedUsers','getAllMatchDocs','getAcceptedMatch'])
     },
     mounted() {
         this.getAnotherUsers();

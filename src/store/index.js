@@ -21,16 +21,19 @@ export default new Vuex.Store({
       return auxArray
     },
 
-    getAcceptedMatch: (state) => () => {
+    getRejectedMatch: (state) => () => {
+
       var auxArray = state.miData.data.user.matchUsers.filter(matches => matches.state == "rejected");
       return auxArray
     },
 
 
 
-    getRejectedMatch: (state) => () => {
-      var auxArray = state.miData.data.user.matchUsers.filter(matches => matches.state == "accepted");
-      return auxArray
+    getAcceptedMatch: (state) => () => {
+      var acceptedDocuments = state.miData.data.user.matchUsers.filter(matches => matches.state == "accepted");
+      var acceptedDocumentsArray = acceptedDocuments.map(element => element.document);
+      var responseObject = state.otherUsers.filter(element => acceptedDocumentsArray.includes(element.documentid))
+      return responseObject
     },
 
     getTargetUser: (state) => (docid) => {
