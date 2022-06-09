@@ -132,7 +132,7 @@
                   style="max-width: 20rem"
                   class="mb-2"
                 >
-                  <b-card-text> {{ user.data.user.userMail }} </b-card-text>
+                  <b-card-text> {{ user.data.user.leyenda }} </b-card-text>
 
                   <b-button
                     href="#"

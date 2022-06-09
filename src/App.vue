@@ -1,11 +1,18 @@
 <template>
   <div id="app">
-    <div v-if="!$route.meta.hideNavbar">
-      <b-navbar   type="dark" variant="dark">
-        <b-navbar-nav>
-          <b-nav-item class="mr-auto"
-            ><router-link to="/">Home</router-link></b-nav-item
-          >
+  
+
+
+
+    <b-navbar  toggleable="lg" type="light" >
+      <b-navbar-brand><router-link to="/"><img src="./assets/img/landing/logo.png"/></router-link></b-navbar-brand>
+          
+
+      <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+
+      <b-collapse id="nav-collapse" is-nav>
+        <b-navbar-nav class="ms-auto">
+        
           <b-nav-item
             ><router-link to="/signUp">SignUp</router-link></b-nav-item
           >
@@ -13,19 +20,12 @@
             ><router-link to="/signIn">SignIn</router-link></b-nav-item
           >
 
-          <b-nav-item class="mr-auto"
-            ><router-link to="/panel">Panel</router-link></b-nav-item
-          >
-        
+         
         </b-navbar-nav>
-        <b-navbar-nav class="mr-auto ms-auto mb-2 mb-lg-0">
-        <b-button @click="signUp({ email: `topo${Date.now()}@acac.cl`, password: 'acac123' }),getAnotherUsers()">Button</b-button>
-          <b-nav-item >{{`Bienvenido: ${usuario}`}}</b-nav-item>
+      </b-collapse>
+    </b-navbar>
 
-        </b-navbar-nav>
 
-      </b-navbar>
-    </div>
 
     <router-view />
   </div>
@@ -74,14 +74,16 @@ export default {
 
 nav {
   padding: 30px;
-
+  background-color:black;
   a {
     font-weight: bold;
-    color: #2c3e50;
+    color: #f2f5f8;
+    text-decoration: none;
 
     &.router-link-exact-active {
       color: #42b983;
     }
+  
   }
 }
 </style>

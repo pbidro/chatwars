@@ -9,6 +9,7 @@ const routes = [
     name: 'home',
     component: HomeView,
     meta: {
+      hideNavbar: true,
      }
   },
   {
@@ -28,7 +29,6 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/PanelView.vue'),
     meta: {
       hideNavbar: true,
-      authRequired: true
      }
   },
   {
@@ -47,33 +47,8 @@ const routes = [
 ]
 
 const router = new VueRouter({
-
+  mode: "history",
   routes
-})
-
-
-
-import { getAuth } from "firebase/auth";
-router.beforeEach((to, from, next) => {
-console.log('pase por el before each')
-  const { currentUser } = getAuth()
-  
-  const { meta: { authRequired } } = to
-  if (currentUser && authRequired) {
-    console.log(currentUser)
-    console.log(`el usuario ingresado es ${currentUser.uid} & su correo es  ${currentUser.uid}`)
-    console.log(`cu: ${currentUser} y ar: ${authRequired} redirigir a next`)
-    next()
-  } else if (!currentUser && authRequired) {
-    console.log(currentUser)
-    console.log(`cu: ${currentUser} y ar: ${authRequired} redirigir a register`)
-    next("/")
-  }
-  else {
-    console.log(currentUser)
-    console.log(`cu: ${currentUser} y ar:${authRequired} redirigir a nextpage`)
-    next()
-  }
 })
 
 export default router
