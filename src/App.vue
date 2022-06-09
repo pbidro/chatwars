@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <div>
-      <b-navbar v-if="!$route.meta.hideNavbar"  type="dark" variant="dark">
+    <div v-if="!$route.meta.hideNavbar">
+      <b-navbar   type="dark" variant="dark">
         <b-navbar-nav>
           <b-nav-item class="mr-auto"
             ><router-link to="/">Home</router-link></b-nav-item
@@ -57,7 +57,6 @@ export default {
     mounted() {
       this.getCurrentUser();
       this.getMyData();
-      this.getAnotherUsers();
 }
 
 }

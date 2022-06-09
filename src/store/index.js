@@ -27,13 +27,23 @@ export default new Vuex.Store({
       return auxArray
     },
 
-
-
     getAcceptedMatch: (state) => () => {
       var acceptedDocuments = state.miData.data.user.matchUsers.filter(matches => matches.state == "accepted");
       var acceptedDocumentsArray = acceptedDocuments.map(element => element.document);
       var responseObject = state.otherUsers.filter(element => acceptedDocumentsArray.includes(element.documentid))
       return responseObject
+    },
+
+    getConversation: (state) => (mail) => {
+      var chatIndex = state.miData.data.user.matchUsers.findIndex(matches => matches.matchUser == mail);
+      console.log(chatIndex+ 'chatindex')
+      var responseObject = state.miData.data.user.matchUsers[chatIndex].chat 
+      var document = state.miData.data.user.matchUsers[chatIndex].document
+
+      if(responseObject == undefined){
+        responseObject=[]
+      }
+      return {chat: responseObject, document: document}
     },
 
     getTargetUser: (state) => (docid) => {
@@ -42,13 +52,13 @@ export default new Vuex.Store({
     },
 
     getNotMatchedUsers: (state) => (interactions) => {
-      console.log("data de getter")
       console.log(state.otherUsers)
       console.log(interactions)
       var auxArray = state.otherUsers.filter(element => !interactions.includes(element.documentid))
 
       return auxArray
     },
+
     getAllMatchDocs: (state) => () => {
       var auxArray = state.miData.data.user.matchUsers;
       var result = auxArray.map(element => element.document);
@@ -77,12 +87,12 @@ export default new Vuex.Store({
     },
 
   actions: {
-
-    
+ 
     async instanceFirestore(context, fs) {
       console.log('iniciado firestore')
       context.commit("instanceFirestore", fs())
     },
+
     async getCurrentUser(context){
      await onAuthStateChanged(auth, (user) => {
         if (user) {
@@ -92,12 +102,24 @@ export default new Vuex.Store({
         }
     })
     },
+
+    async signOut(context) {
+      const res = await auth.signOut()
+      .then(() => {
+        this.$router.push("/home");
+      });
+      if (res) {
+        context.commit('setUser', res.user)
+      }
+    },
+
     async signIn(context, { email, password }) {
       const res = await signInWithEmailAndPassword(auth, email, password)
       if (res) {
         context.commit('setUser', res.user)
       }
     },
+
     async signUp(context, { email, password }) {
       const res = await createUserWithEmailAndPassword(auth, email, password)
 
@@ -121,6 +143,9 @@ export default new Vuex.Store({
    
 
     },
+
+
+
     async getMyData({commit}) {
 
      await onAuthStateChanged(auth, (user) => {
@@ -142,6 +167,7 @@ export default new Vuex.Store({
         } 
     })
     },
+
     async getAnotherUsers({commit}) {
 
       await onAuthStateChanged(auth, (user) => {
@@ -165,6 +191,7 @@ export default new Vuex.Store({
          }
      })
     },
+
      async sendMatch(commit, objeto) {
       if (objeto != "") {
         console.log(objeto)
@@ -201,6 +228,7 @@ export default new Vuex.Store({
       }
     },
 
+
     async rejectMatch(commit, objeto) {
       if (objeto != "") {
         const db = getFirestore();
@@ -220,7 +248,29 @@ export default new Vuex.Store({
     },
 
 
+    async sendMessage(commit, objeto) {
+      if (objeto != "") {
+        const db = getFirestore();
 
+        var fromIndex = this.state.miData.data.user.matchUsers.findIndex(element => element.matchUser == objeto.to)
+        console.log(objeto.target)
+        var toIndex = objeto.target.data.user.matchUsers.findIndex(element => element.matchUser == this.state.usuario)
+
+        if(this.state.miData.data.user.matchUsers[fromIndex].chat == undefined){
+          this.state.miData.data.user.matchUsers[fromIndex].chat = []
+          objeto.target.data.user.matchUsers[toIndex].chat =[]
+        }
+        var puchObject = {text: objeto.text ,from: objeto.from, to: objeto.to, date: objeto.date}
+
+        this.state.miData.data.user.matchUsers[fromIndex].chat.push(puchObject)
+        objeto.target.data.user.matchUsers[toIndex].chat.push(puchObject)
+
+        await setDoc(doc(db, "starchat", this.state.miData.documentid), this.state.miData.data);
+        await setDoc(doc(db, "starchat", objeto.target.documentid), objeto.target.data);
+
+        commit
+      }
+    },
     
 
   },
