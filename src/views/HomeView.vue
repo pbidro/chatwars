@@ -12,8 +12,6 @@
         <h1 class="title-1">Expande tu círculo social y conéctate con gente de otra galaxia.</h1>
         <p class="p-1">Estás a punto de vivir la mejor experiencia de citas en línea con personas con quienes 
           compartes los mismos gustos por la fuerza. Únete a nosotros y juntos dominaremos la Galaxia</p>
-        <a href="#registerr" class="btn btn-danger btn-lg">Registrar</a>
-        <a href="#loggin" class="btn  btn-danger btn-lg">Iniciar sesion</a>
       </div> 
      
     </section> 
@@ -230,9 +228,7 @@
 
       <div class="footer-container">
           <img src="../assets/img/landing/logo.png" alt=" logo_footer">
-                  <h1 class="footer-container_text"> Lorem ipsum dolor sit, amet 
-                  consectetur adipisicing elit. Dolore provident aperiam laboriosam, 
-                  doloremque!</h1>
+
           <div class="rrss_footer">
             <a class="instagram_footer" href="https://www.instagram.com/starwars/?hl=es">
               <img src="../assets/img/rrss/insta_icon.png" alt="">
@@ -244,7 +240,6 @@
               <img src="../assets/img/rrss/twitt_icon.png" alt="">
             </a>
 
-            <p>ChatWars todos los derechos reservados ® 2020</p>
        </div>
       </div>
        
@@ -602,4 +597,7 @@ min-width: 330px;
 
 }
 
+@media screen and (min-width: 0px) and (max-width: 700px) {
+  .hero-cellphone { display: none; }  /* show it on small screens */
+}
 </style>

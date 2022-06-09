@@ -1,6 +1,7 @@
 <template>
   <div id="app">
   
+    <div v-if="!$route.meta.hideNavbar">
 
 
 
@@ -24,7 +25,7 @@
         </b-navbar-nav>
       </b-collapse>
     </b-navbar>
-
+    </div>
 
 
     <router-view />

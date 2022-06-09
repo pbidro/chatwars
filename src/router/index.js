@@ -9,7 +9,7 @@ const routes = [
     name: 'home',
     component: HomeView,
     meta: {
-      hideNavbar: true,
+      hideNavbar: false,
      }
   },
   {
