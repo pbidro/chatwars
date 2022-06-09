@@ -44,6 +44,10 @@ const routes = [
       hideNavbar: true,
      }
   },
+  {
+    path: '/:catchAll(.*)',
+    component: () => import('../views/NotFound.vue'),
+  }
 ]
 
 const router = new VueRouter({
