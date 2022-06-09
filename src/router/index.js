@@ -9,7 +9,6 @@ const routes = [
     name: 'home',
     component: HomeView,
     meta: {
-      hideNavbar: true,
      }
   },
   {
@@ -68,7 +67,7 @@ console.log('pase por el before each')
   } else if (!currentUser && authRequired) {
     console.log(currentUser)
     console.log(`cu: ${currentUser} y ar: ${authRequired} redirigir a register`)
-    next("/login")
+    next("/")
   }
   else {
     console.log(currentUser)

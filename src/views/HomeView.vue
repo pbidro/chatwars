@@ -1,7 +1,7 @@
 <template>
   <div class="home">
 
-     <audio controls muted>
+     <audio controls autoplay loop>
       <source src="../assets/sound/Star-Wars_Main_Theme-Piano.mp3" type="audio/mp3"/>
     </audio>
 

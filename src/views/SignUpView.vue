@@ -1,123 +1,174 @@
 <template>
   <div class="form">
 
+<a>
 
-<b-container class="form-container"> 
 
-  <b-card no-body class="overflow-hidden" >
-    <b-row no-gutters>
-      <b-col md="6">
-        <b-card-img src="https://picsum.photos/400/400/?image=20" alt="Image" class="rounded-0"></b-card-img>
-      </b-col>
-      <b-col md="6">
-        <b-card-body title="SignUp">
-          <b-card-text>
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Iste veritatis ducimus voluptate, nulla facilis tempore aliquam. Dicta quisquam, praesentium fuga rerum, sint error velit quia itaque nobis nam tenetur non.
-          </b-card-text>
 
+</a>
+
+
+    <b-container class="form-container">
+      <b-card no-body class="overflow-hidden text-white bg-dark">
+        <b-row no-gutters>
+          <b-col md="6">
+            <b-card-img
+              :src="starwarsapi[random_number].image
+              /*https://www.solofondos.com/wp-content/uploads/2016/03/star-wars-wallpaper-android.jpg*/ "
+              class="hover-shadow"
+            ></b-card-img>
+          </b-col>
+          <b-col md="6">
+            <b-card-body title="Registrarse">
+              <p>Tu personaje será: {{starwarsapi[random_number].name}}</p>
               <b-form @submit="onSubmit" @reset="onReset" v-if="show">
-      <b-form-group
-        id="input-group-1"
-        label="Email address:"
-        label-for="input-1"
-        description="We'll never share your email with anyone else."
-      >
-        <b-form-input
-          id="input-1"
-          v-model="form.email"
-          type="email"
-          placeholder="Enter email"
-          required
-        ></b-form-input>
-      </b-form-group>
+                <b-form-group
+                  id="input-group-1"
+                  label="Dirección de correo electrónico:"
+                  label-for="input-1"
+                  description="Nunca compartiremos su correo electrónico con nadie más."
+                >
+                  <b-form-input
+                    id="input-1"
+                    v-model="form.user.userMail"
+                    type="email"
+                    placeholder="email"
+                    required
+                  ></b-form-input>
+                </b-form-group>
 
-      <b-form-group id="input-group-2" label="Your Name:" label-for="input-2">
-        <b-form-input
-          id="input-2"
-          v-model="form.name"
-          placeholder="Enter name"
-          required
-        ></b-form-input>
-      </b-form-group>
+                <b-form-group
+                  id="input-group-2"
+                  label="Tu nombre:"
+                  label-for="input-2"
+                >
+                  <b-form-input
+                    id="input-2"
+                    v-model="form.name"
+                    placeholder="Tu nombre"
+                    required
+                  ></b-form-input>
+                </b-form-group>
 
-      <b-form-group id="input-group-3" label="Food:" label-for="input-3">
-        <b-form-select
-          id="input-3"
-          v-model="form.food"
-          :options="foods"
-          required
-        ></b-form-select>
-      </b-form-group>
+                <b-form-group
+                  id="input-group-3"
+                  label="Tu contraseña:"
+                  label-for="input-3"
+                >
 
-      <b-form-group id="input-group-4" v-slot="{ ariaDescribedby }">
-        <b-form-checkbox-group
-          v-model="form.checked"
-          id="checkboxes-4"
-          :aria-describedby="ariaDescribedby"
-        >
-          <b-form-checkbox value="me">Check me out</b-form-checkbox>
-          <b-form-checkbox value="that">Check that out</b-form-checkbox>
-        </b-form-checkbox-group>
-      </b-form-group>
+                    <b-form-input
+                    id="input-3"
+                    placeholder="Contraseña"
+                    required
+                    v-model="password"
+                    type="password"
+                  ></b-form-input>
+                </b-form-group>          
 
-      <b-button type="submit" variant="primary">Submit</b-button>
-      <b-button type="reset" variant="danger">Reset</b-button>
-    </b-form>
-    <b-card class="mt-3" header="Form Data Result">
-      <pre class="m-0">{{ form }}</pre>
-    </b-card>
-  
-        </b-card-body>
-      </b-col>
-    </b-row>
-  </b-card>
+            
+                <b-form-group
+                  id="input-group-3"
+                  label="Confirmar contraseña:"
+                  label-for="input-3"
+                >
 
-
-</b-container>
+                    <b-form-input
+                    id="input-3"
+                    placeholder="Confirma tu contraseña"
+                    required
+                    v-model="password2"
+                    type="password"
+                  ></b-form-input>
+                </b-form-group>          
 
 
+                <b-button pill   
+             
+              type="submit" squared variant="success" size="lg"
+                  >Registrarse</b-button
+                >
+
+              </b-form>
+            </b-card-body>
+          </b-col>
+        </b-row>
+
+      </b-card>
+    </b-container>
   </div>
 </template>
 
 <script>
-  export default {
-    data() {
-      return {
-        form: {
-          email: '',
-          name: '',
-          food: null,
-          checked: []
-        },
-        foods: [{ text: 'Select One', value: null }, 'Carrots', 'Beans', 'Tomatoes', 'Corn'],
-        show: true
-      }
-    },
-    methods: {
-      onSubmit(event) {
-        event.preventDefault()
-        alert(JSON.stringify(this.form))
+import {  mapActions } from "vuex";
+
+export default {
+  data() {
+    return {
+      random_number: this.randomIntFromInterval(),
+      starwarsapi: "",
+      password:"",
+      password2:"",
+      form: {
+        name: "",
+        foto:"",
+          user: {
+            userMail: "",
+            registerDate: Date.now(),
+            lastConection: Date.now(),
+            matchCounter: 100,
+            matchUsers: [
+            ]
+          }
+        
       },
-      onReset(event) {
-        event.preventDefault()
-        // Reset our form values
-        this.form.email = ''
-        this.form.name = ''
-        this.form.food = null
-        this.form.checked = []
-        // Trick to reset/clear native browser form validation state
-        this.show = false
-        this.$nextTick(() => {
-          this.show = true
-        })
-      }
+      show: true,
+    };
+  },
+  methods: {
+    onSubmit(event) {
+      event.preventDefault();
+    this.form.foto = this.starwarsapi[this.random_number].image
+    if(this.password.length<8 ){
+      alert("contraseña debe ser mayor a 8 caracteres");
+      return;
     }
-  }
+    if(this.password != this.password2){
+      alert("las contraseñas no coinciden")
+      return;
+    }
+   this.signUp({
+                  email: this.form.user.userMail,
+                  password: this.password,
+                  newUser: this.form
+                })
+},
+    randomIntFromInterval() {
+      return Math.floor(Math.random() * (20 - 0 + 1) + 0);
+    },
+        ...mapActions([
+      "signIn",
+      "signUp",
+      "signOut"
+    ]),
+  },
+  created() {
+    fetch("https://akabab.github.io/starwars-api/api/all.json")
+      .then((response) => response.json())
+      .then((data) => (this.starwarsapi = data));
+  },
+};
 </script>
 
 <style scoped>
 .form {
   padding-bottom: 2rem;
+}
+button {
+  margin: 13px 12px 12px 10px;
+}
+
+button {
+  margin: 13px;
 }
 .form-container {
   margin-top: 100px;
@@ -126,5 +177,11 @@
   width: 500px;
 }
 
+.overflow-hidden{
+  background-color: black;
+  padding: 0px;
+  border-radius: 20px;
+  height: 555px;
+}
 
 </style>
