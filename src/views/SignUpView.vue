@@ -1,12 +1,39 @@
 <template>
-  <div>
-    <h1>Crear una nueva cuenta</h1>
-    <p>email: <input v-model="form.user.userMail" /></p>
-    <p>leyenda: <input v-model="form.user.leyenda" /></p>
-    <p>username: <input v-model="form.user.name" /></p>
-    <p>password: <input type="password" v-model="password" /></p>
-    <button @click="signUp({email:form.user.userMail,password:password,newUser:form})">Registrar</button>
+
+  <div class="form">
+
+
+<b-container class="form-container"> 
+
+  <b-card no-body class="overflow-hidden text-white bg-dark" >
+    <b-row no-gutters>
+      <b-col md="6">
+        <b-card-img :src="form.user.foto" alt="Image" class="hover-shadow"></b-card-img>
+      </b-col>
+      <b-col md="6">
+        <b-card-body title="Regístrate">
+
+
+             
+    <h1>Tu personaje asignado será: {{starwarsapi[random_number].name}}</h1>
+    <p>email: <b-input type="email" required v-model="form.user.userMail" /></p>
+    <p>leyenda: <b-input required v-model="form.user.leyenda" /></p>
+    <p>username: <b-input required v-model="form.user.name" /></p>
+    <p>password: <b-input required type="password" v-model="password" /></p>
+    <b-button variant="success" @click="signUp({email:form.user.userMail,password:password,newUser:form}),moveToPanel() ">Registrar</b-button>
+    
+        </b-card-body>
+      </b-col>
+    </b-row>
+  </b-card>
+
+
+</b-container>
+
+
   </div>
+
+
 </template>
 
 <script>
@@ -40,6 +67,9 @@ export default {
     randomIntFromInterval() {
       return Math.floor(Math.random() * (20 - 0 + 1) + 0);
     },
+    moveToPanel(){
+      this.$router.push('panel') 
+    },
     ...mapActions(["signUp", "instanceFirestore"]),
   },
   created() {
@@ -54,6 +84,3 @@ export default {
   },
 };
 </script>
-
-
-

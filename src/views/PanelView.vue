@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-navbar  toggleable="lg" type="dark" variant="info">
+    <b-navbar toggleable="lg" type="dark" variant="info">
       <b-navbar-brand
         ><img src="../assets/img/landing/logo.png"
       /></b-navbar-brand>
@@ -26,16 +26,11 @@
                   password: 'acac123',
                 }),
                   getAnotherUsers() */
-                  signOut()
+                signOut(),moveToHome()
               "
             >
-          
-
-                          <b-icon-power></b-icon-power> 
-
-                  
-          </b-button
-            >
+              <b-icon-power></b-icon-power>
+            </b-button>
           </b-nav-form>
         </b-navbar-nav>
       </b-collapse>
@@ -43,85 +38,87 @@
 
     <b-container class="contenedor_panel" fluid>
       <!-- Content here -->
-        <div class="sideNav" title="Sidebar">
-            <b-list-group>
-              <b-list-group-item class="d-flex align-items-center justify-content-center">
-                  <b-button
-                    variant="danger"
-                  >
-                    {{ miData.data.user.matchCounter }} <b-icon-heart-fill></b-icon-heart-fill> restantes
-                  </b-button>
+      <div class="sideNav" title="Sidebar">
+        <b-list-group>
+          <b-list-group-item
+            class="d-flex align-items-center justify-content-center"
+          >
+            <b-button variant="danger">
+              {{ miData.data.user.matchCounter }}
+              <b-icon-heart-fill></b-icon-heart-fill> restantes
+            </b-button>
+          </b-list-group-item>
 
-              </b-list-group-item>
+          <b-list-group-item
+            class="d-flex align-items-center justify-content-center"
+          >
+            <b-dropdown variant="outline-danger">
+              <template #button-content>
+                Notificaciones
+                <b-badge pill class="pill bg-danger">
+                  {{ getPendingMatch().length }}</b-badge
+                >
+              </template>
+              <b-dropdown-item
+                v-for="pendings in getPendingMatch()"
+                :key="pendings.id"
+                >{{ pendings.matchUser }} {{ pendings.document }}
 
-              <b-list-group-item class="d-flex align-items-center justify-content-center">
-                <b-dropdown variant="outline-danger">
-                  <template #button-content>
-                    Notificaciones
-                    <b-badge pill class="pill bg-danger">
-                      {{ getPendingMatch().length }}</b-badge
-                    >
-                  </template>
-                  <b-dropdown-item
-                    v-for="pendings in getPendingMatch()"
-                    :key="pendings.id"
-                    >{{ pendings.matchUser }} {{ pendings.document }}
+                <b-button
+                  href="#"
+                  variant="success"
+                  @click="
+                    approveMatch({
+                      fromUser: miData,
+                      toUser: getTargetUser(pendings.document),
+                    })
+                  "
+                  >Approve</b-button
+                >
+                <b-button
+                  href="#"
+                  variant="danger"
+                  @click="
+                    rejectMatch({
+                      fromUser: miData,
+                      toUser: getTargetUser(pendings.document),
+                    })
+                  "
+                  >Reject</b-button
+                >
+              </b-dropdown-item>
+            </b-dropdown>
+          </b-list-group-item>
+          <b-list-group-item class="d-flex align-items-center">
+            <b> Amigos </b>
+          </b-list-group-item>
 
-                    <b-button
-                      href="#"
-                      variant="success"
-                      @click="
-                        approveMatch({
-                          fromUser: miData,
-                          toUser: getTargetUser(pendings.document),
-                        })
-                      "
-                      >Approve</b-button
-                    >
-                    <b-button
-                      href="#"
-                      variant="danger"
-                      @click="
-                        rejectMatch({
-                          fromUser: miData,
-                          toUser: getTargetUser(pendings.document),
-                        })
-                      "
-                      >Reject</b-button
-                    >
-                  </b-dropdown-item>
-                </b-dropdown>
-              </b-list-group-item>
-              <b-list-group-item class="d-flex align-items-center">
-                <b> Amigos </b>
-              </b-list-group-item>
+          <b-list-group-item
+            class="d-flex align-items-center"
+            v-for="friends in getAcceptedMatch()"
+            :key="friends.id"
+          >
+            {{ friends.data.user.userMail }}
 
-              <b-list-group-item
-                class="d-flex align-items-center"
-                v-for="friends in getAcceptedMatch()"
-                :key="friends.id"
-              >
-                {{ friends.data.user.userMail }}
-
-                <!-- Botón Modal-->
-                <router-link :to="'chat/' + friends.data.user.userMail">
-                  <b-button variant="success">
-                    <b-icon-chat-dots-fill></b-icon-chat-dots-fill>
-                  </b-button>
-                </router-link>
-              </b-list-group-item>
-            </b-list-group>
-          </div>
+            <!-- Botón Modal-->
+            <router-link :to="'chat/' + friends.data.user.userMail">
+              <b-button variant="success">
+                <b-icon-chat-dots-fill></b-icon-chat-dots-fill>
+              </b-button>
+            </router-link>
+          </b-list-group-item>
+        </b-list-group>
+      </div>
       <b-row>
-  
-
         <b-col class="12">
           <b-container class="bv-example-row sidecontent">
             <b-row>
               <b-col
                 v-for="user in getNotMatchedUsers(getAllMatchDocs())"
                 :key="user._id"
-                lg="4" md="6" xs="12"
+                lg="4"
+                md="6"
+                xs="12"
               >
                 <b-card
                   :title="user.data.user.name"
@@ -174,9 +171,11 @@ export default {
       "sendMatch",
       "approveMatch",
       "rejectMatch",
-      "signOut"
+      "signOut",
     ]),
-
+    moveToHome() {
+      this.$router.push("/");
+    },
   },
   computed: {
     ...mapState(["usuario", "miData", "otherUsers"]),
@@ -222,7 +221,11 @@ a {
   background-color: #6200ee !important;
 }
 
-.contenedor_panel{
-  margin-top:15px;
+.contenedor_panel {
+  margin-top: 15px;
+}
+
+.redondeo {
+  border-radius: 20px;
 }
 </style>

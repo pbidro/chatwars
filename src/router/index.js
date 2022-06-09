@@ -31,11 +31,7 @@ const routes = [
       hideNavbar: true,
      }
   },
-  {
-    path: '/debug',
-    name: 'debug',
-    component: () => import(/* webpackChunkName: "about" */ '../views/DebugRoom.vue')
-  },
+ 
   {
     path: '/chat/:name',
     name: 'chat',
