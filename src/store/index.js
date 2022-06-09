@@ -120,24 +120,12 @@ export default new Vuex.Store({
       }
     },
 
-    async signUp(context, { email, password }) {
+    async signUp(context, { email, password, newUser }) {
       const res = await createUserWithEmailAndPassword(auth, email, password)
 
       if (res) {
-
-        const newUser = {
-          "user": {
-            userMail: res.user.email,
-            registerDate: `"${Date.now()}"`,
-            lastConection: `"${Date.now()}"`,
-            matchCounter: 100,
-            matchUsers: [
-            ]
-          }
-        }
         
         await addDoc(collection(getFirestore(), "starchat"), newUser);
-        console.log(newUser)
         context.commit('setUser', res.user)
       }
    

@@ -12,7 +12,7 @@
           <b-nav-form>
             <b-avatar
               variant="info"
-              src="https://placekitten.com/300/300"
+              :src="miData.data.user.foto"
               class="mr-3"
             ></b-avatar>
             <span class="ms-1" style="color: white"> {{ usuario }}</span>
@@ -124,8 +124,8 @@
                 lg="4" md="6" xs="12"
               >
                 <b-card
-                  title="Card Title"
-                  img-src="https://picsum.photos/600/300/?image=25"
+                  :title="user.data.user.name"
+                  :img-src="user.data.user.foto"
                   img-alt="Image"
                   img-top
                   tag="article"
