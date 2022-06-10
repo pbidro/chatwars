@@ -16,12 +16,14 @@
 
              
     <h1>Tu personaje asignado será: {{starwarsapi[random_number].name}}</h1>
-    <p>email: <b-input type="email" required v-model="form.user.userMail" /></p>
-    <p>leyenda: <b-input required v-model="form.user.leyenda" /></p>
-    <p>username: <b-input required v-model="form.user.name" /></p>
-    <p>password: <b-input required type="password" v-model="password" /></p>
+    <p>Email: <b-input type="email" required v-model="form.user.userMail" /></p>
+    <p>Leyenda: <b-input required v-model="form.user.leyenda" /></p>
+    <p>Username: <b-input required v-model="form.user.name" /></p>
+    <p>Password: <b-input required type="password" v-model="password" /></p>
+     <p>Confirma password: <b-input required type="password" v-model="password" /></p>
+
     <b-button variant="success" @click="signUp({email:form.user.userMail,password:password,newUser:form}),moveToPanel() ">Registrar</b-button>
-    
+
         </b-card-body>
       </b-col>
     </b-row>

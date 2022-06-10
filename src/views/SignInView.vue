@@ -10,10 +10,12 @@
         <b-card-img src="https://i.pinimg.com/originals/f4/01/6c/f4016cd613e6217d349ed16b8363471e.jpg" alt="Image" class="hover-shadow"></b-card-img>
       </b-col>
       <b-col md="6">
-        <b-card-body title="Inscribirse">
+        <b-card-body title="Inicia Sesión">
 
-
+    <p>Email: <b-input type="email" required v-model="userMail" /></p>
+    <p>Password: <b-input required type="password" v-model="password" /></p>
              
+    <b-button variant="success" @click="signIn({email:userMail,password:password}),moveToPanel() ">Logear</b-button>
 
   
         </b-card-body>
@@ -29,37 +31,21 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
+
   export default {
     data() {
       return {
-        form: {
-          email: '',
-          name: '',
-          food: null,
-          checked: []
-        },
-        foods: [{ text: 'Select One', value: null }, 'Carrots', 'Beans', 'Tomatoes', 'Corn'],
-        show: true
+  
+          userMail: '',
+          password: ''
       }
     },
     methods: {
-      onSubmit(event) {
-        event.preventDefault()
-        alert(JSON.stringify(this.form))
-      },
-      onReset(event) {
-        event.preventDefault()
-        // Reset our form values
-        this.form.email = ''
-        this.form.name = ''
-        this.form.food = null
-        this.form.checked = []
-        // Trick to reset/clear native browser form validation state
-        this.show = false
-        this.$nextTick(() => {
-          this.show = true
-        })
-      }
+      ...mapActions(["signIn", ]),
+    moveToPanel(){
+      this.$router.push('panel') 
+    },
     }
   }
 </script>

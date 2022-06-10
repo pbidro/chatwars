@@ -127,7 +127,6 @@ export default new Vuex.Store({
         
         await addDoc(collection(getFirestore(), "starchat"), newUser);
         context.commit('setUser', res.user)
-        this.$router.push('panel') 
 
       }
    

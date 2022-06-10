@@ -5,7 +5,7 @@
 
 
 
-    <b-navbar  toggleable="lg" type="light" >
+    <b-navbar  toggleable="lg" type="dark" >
       <b-navbar-brand><router-link to="/"><img src="./assets/img/landing/logo.png"/></router-link></b-navbar-brand>
           
 
